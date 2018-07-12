@@ -144,8 +144,6 @@ public class BsdClothingStockServiceImpl implements IBsdClothingStockService {
 			stockBiz.getBaseData(department_id,department_user_id,type);
 		}
 		
-
-		
 		//设置返回消息
 		BSDResponse response = new BSDResponse();
 		response.setErrorData("");

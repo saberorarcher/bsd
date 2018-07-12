@@ -449,6 +449,11 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 		totalMap.put("cuuid",cuuid );
 		initJson.add(totalMap);
 		
+		if( c_jObject==null || !c_jObject.containsKey("data")||c_jObject.getString("data")==null ||c_jObject.getString("data").equals("null") ) {
+			logger.error(c_jObject.getString("errorMessage"));
+			return 0;
+		}
+		
 		int number = Integer.parseInt(c_jObject.getString("data"));
 		int num = number % 10000 > 0 ? number / 10000 + 1 : number / 10000;
 

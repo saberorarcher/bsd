@@ -32,26 +32,10 @@ public class HttpPostUtils {
 		
 		HttpPost httpPost = new HttpPost(url);
 //		httpPost.setConfig(requestConfig);
-//		httpGet.setConfig(requestConfig);
 		JSONObject response = new JSONObject();
 		
-		try {
-//			CloseableHttpResponse httpResponse = httpclient.execute(httpGet);
-//			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-//				String result = EntityUtils.toString(httpResponse.getEntity());//返回json格式：
-//				response = JSONObject.parseObject(result);
-//			}
-//			else {
-//				response.put("success", false);
-//				response.put("errorMessage", "访问token出错!"+httpResponse.getStatusLine());
-//				
-//				return response;
-//			}
-//			//获取token
-//			String tokenStr = response.getJSONObject("data").getString("token");
-			
+		try {			
 			String tokenStr = TokenUtil.getInstance().getToken();
-			
 			StringEntity s = new StringEntity(json.toJSONString(),"utf-8");
 			s.setContentEncoding("utf-8");
 			s.setContentType("application/json");//发送json数据需要设置contentType
@@ -73,17 +57,18 @@ public class HttpPostUtils {
 			e.printStackTrace();
 			logger.error(e.getMessage());
 		} finally {
-//			httpGet.releaseConnection();
 			httpPost.releaseConnection();
+			try {
+				httpclient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return response;
 	}
 	
 	public JSONObject postToX2(JSONObject json) {
-		
-//		String url = "http://58.211.79.4:11903/BigBossQuery.ashx";
 		String url = "http://47.101.143.38:702/BigBossQuery.ashx";
-//		String url = "http://58.211.79.4:1901/mobile/API";
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 //		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(200000).setConnectTimeout(200000).build();//设置请求和传输超时时间
 		
@@ -112,6 +97,11 @@ public class HttpPostUtils {
 			e.printStackTrace();
 		} finally {
 			httpPost.releaseConnection();
+			try {
+				httpclient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return response;
 	}
