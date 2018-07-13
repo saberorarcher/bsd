@@ -470,7 +470,7 @@ public class BsdVipBizImpl implements IBsdVipBiz {
 		
 		String url1 = env.getProperty("mos.bsd.url")+"/bsdyun-open-api/center/user/getPageMemberDimByPara";
 		
-		return initDao.getInitData("1", url1);
+		return initDao.getInitData("0", url1);
 	}
 
 	@Override
