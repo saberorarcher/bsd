@@ -316,8 +316,6 @@ public class BsdVipServiceImpl implements IBsdVipService {
 //					errorMap.put("error", object);
 //					errorList.add(errorMap);
 //					logger.debug(object.toJSONString());
-				}else {
-					continue;
 				}
 				
 				if(card_id==null||card_id.equals("")||"null".equals(card_id)) {

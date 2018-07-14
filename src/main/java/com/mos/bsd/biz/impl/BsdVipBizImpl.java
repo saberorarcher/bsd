@@ -241,7 +241,12 @@ public class BsdVipBizImpl implements IBsdVipBiz {
 
 	@Override
 	public int insertD0210(List<Map<String, Object>> vipList) {
+
+
+		JSONObject object = new JSONObject();
+		object.put("data", vipList);
 		
+		System.out.println();
 		return vip_dao.insertD0210(vipList);
 	}
 
