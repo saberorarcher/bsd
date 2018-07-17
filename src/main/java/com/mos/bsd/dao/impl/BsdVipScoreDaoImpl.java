@@ -42,12 +42,18 @@ public class BsdVipScoreDaoImpl extends X3DBSaveTemplate implements IBsdVipScore
 			
 			@Override
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				
+				String lastBuyDate = String.valueOf(vipScore_list.get(i).get("vip_lastbuy_date"));
 				ps.setString(1, String.valueOf(vipScore_list.get(i).get("card_id")));
 				ps.setString(2, String.valueOf(vipScore_list.get(i).get("vip_retail_cnt")));
 				ps.setString(3, String.valueOf(vipScore_list.get(i).get("vip_retail_sums")));
 				ps.setString(4, String.valueOf(vipScore_list.get(i).get("vip_retail_score")));
 				ps.setString(5, String.valueOf(vipScore_list.get(i).get("vip_score")));
-				ps.setDate(6, new Date(Long.parseLong(String.valueOf(vipScore_list.get(i).get("vip_lastbuy_date")))));
+				if( lastBuyDate==null || "null".equals(lastBuyDate) || lastBuyDate.equals("0") ) {
+					ps.setDate(6, null);
+				}else {
+					ps.setDate(6, new Date(Long.parseLong(lastBuyDate)));
+				}
 				
 			}
 			

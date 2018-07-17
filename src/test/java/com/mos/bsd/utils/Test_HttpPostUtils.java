@@ -23,12 +23,12 @@ import com.mos.bsd.utils.scheduler.TokenUtil;
 public class Test_HttpPostUtils {
 	public static void main(String[] args) throws ClientProtocolException, IOException, ParseException {
 		JSONObject jObject = new JSONObject();
-		long ts = System.currentTimeMillis();
+//		long ts = System.currentTimeMillis();
 //		jObject.put("ts", ts);
 //		jObject.put("openId", "oclE4xKX_4M4uho-EtwZBeKPz6Zs");
-		jObject.put("storeNo", "ZD83");
+//		jObject.put("storeNo", "ZD83");
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //		String beginString ="2016-06-01 00:00:00";  
 //		String endString = "2016-06-30 00:00:00";  
 		
@@ -37,14 +37,14 @@ public class Test_HttpPostUtils {
 //		System.out.println(beginString);
 //		System.out.println(endString);
 		
-		jObject.put("saleDateStart", "2018-07-08 00:00:00");
-		jObject.put("saleDateEnd", "2018-07-09 00:00:00");
+//		jObject.put("saleDateStart", "2018-07-08 00:00:00");
+//		jObject.put("saleDateEnd", "2018-07-09 00:00:00");
 //		{"storeNo":"J528","saleDateEnd":"2018-06-22 00:00:00","offset":0,"limit":10000,"saleDateStart":"2018-05-24 00:00:00"}
 //		jObject.put("openId", "o8J-zjtCc8BG5VaUQdo5jZN5B7zc");
 //		
-		jObject.put("offset", 0);
-		jObject.put("limit", 100);
-//		jObject.put("ts", "2018-07-05 00:00:00");
+//		jObject.put("offset", 0);
+//		jObject.put("limit", 100);
+		jObject.put("ts", "2018-07-13 01:26:12");
 //		String beginString = "2011-12-01 00:00:00";
 //		String endString = "2011-12-30 00:00:00";
 //		jObject.put("ts", "2018-06-26 00:00:00");
@@ -60,7 +60,7 @@ public class Test_HttpPostUtils {
 //		JSONObject object = new JSONObject();
 //		String ts = "";
 //		for(int i=0;i<100;i++) {
-			result = postHttp("http://58.211.79.7:18080/bsdyun-open-api/center/order/getPageSaleOrderByPara", jObject);
+			result = postHttp("http://58.211.79.7:18080/bsdyun-open-api/center/marketing/getMemberPointCountByPara", jObject);
 			System.out.println(result);
 //		}
 			 
@@ -69,7 +69,6 @@ public class Test_HttpPostUtils {
 //				 object = (JSONObject) obj;
 //				 ts=object.getString("ts");
 //			 }
-					
 			 
 		System.out.println(result);	 
 		
@@ -77,8 +76,6 @@ public class Test_HttpPostUtils {
 			System.out.println("错误:"+result.getString("errorMessage"));
 		}
 	
-		
-			
 //		JSONObject result = httpPostUtils.postHttp("http://58.211.79.4:14105/bsdyun-open-api/center/stock/getPageChangedProductsDetail", jObject);	
 //		JSONObject result = httpPostUtils.postHttp("http://172.16.17.75:8088/bsdyun-open-api/center/marketing/getMember", jObject);
 //		JSONObject result = httpPostUtils.postHttp("http://10.101.4.105:8080/bsdyun-open-api/center/marketing/getMemberPointCountByPara", jObject);
@@ -109,7 +106,6 @@ public class Test_HttpPostUtils {
 		System.out.println(result);
 		
 	}
-	
 	
 	public static JSONObject postHttp(String url, JSONObject json) {
 			

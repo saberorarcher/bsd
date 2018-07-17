@@ -40,8 +40,6 @@ public class BsdVipScoreLoadBaseInterface {
 			list1.add(responses);
 		}
 		// 返回消息
-		
-		
 		return list1;
 	}
 	
