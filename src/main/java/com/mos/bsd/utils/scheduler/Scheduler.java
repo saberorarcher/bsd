@@ -24,11 +24,12 @@ import com.alibaba.fastjson.JSONObject;
  */
 @Component
 public class Scheduler {
+
 	private static final Logger logger = LoggerFactory.getLogger(Scheduler.class);
-	
+
 	@Autowired
 	private Environment env;
-	
+
 	@Scheduled(fixedDelay=7180000)
 	public void getAccessToken() throws SQLException{
         logger.info("==============开始获取access_token===============");
@@ -62,5 +63,6 @@ public class Scheduler {
         
         logger.info("==============写入access_token成功===============");
     }
+
 }
 	

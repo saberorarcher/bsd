@@ -72,8 +72,9 @@ public class InitialdataDaoImpl extends X3DBSaveTemplate implements Iinitialdata
 	public List<Map<String, InitialdataEntity>> getInitData(String status,String url) {
 		StringBuilder sb = new StringBuilder();
 		//and id >= 399388 and id<=414096
+//		sb.append(" select * from (select id,interface_name,create_date,request_data,received_data,uuid,status,count_uuid,rownum rn from Bsd_interface_initialdata where status = ? and interface_name=? and id > 399388 order by id desc ) a where rn between 10000 and 15000 ");
 		sb.append(" select id,interface_name,create_date,request_data,received_data,uuid,status,count_uuid from Bsd_interface_initialdata where status = ? and interface_name=? and id > 399388 order by id ");
-
+//
 //		sb.append("  select id,interface_name,create_date,request_data,received_data,uuid,status,count_uuid  from Bsd_interface_initialdata a where ");
 //		sb.append("  substr(request_data,13,4) ='BA33' and status=? and ");
 //		sb.append("  interface_name=? ");

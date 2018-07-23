@@ -276,7 +276,7 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 	public List<Map<String, Object>> getStoreList() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(" select department_id,department_user_id from ( ");
-		sb.append("   select department_id,department_user_id from d0060 where system_type=11 and department_type=1 and department_state=1 ");
+		sb.append("   select department_id,department_user_id from d0060 where system_type=11 and department_type=1 ");
 		sb.append("   minus ");
 		sb.append("   select d.department_id,d.department_user_id from d0060 a ");
 		sb.append("          inner join d0060 b on a.department_id=b.department_parent_id ");
@@ -294,7 +294,6 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 //		sb.append("        inner join d0060 b on a.department_id=b.department_parent_id ");
 //		sb.append(" where a.department_parent_id='109517' ");
 
-		
 //		StringBuilder sb = new StringBuilder();
 //		sb.append("  select department_id,department_user_id from ( ");
 //		sb.append("    select department_id,department_user_id from d0060 where system_type=11 and department_type=1 and department_state=1 ");
@@ -306,11 +305,10 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 //		sb.append("    where a.department_user_id in('A101','A008','A102','A901') ");
 //		sb.append("    minus ");
 //		sb.append("    select department_id,a.department_user_id from( ");
-//		sb.append("        select distinct( substr(request_data,13,4)) department_user_id from Bsd_interface_initialdata where interface_name='http://58.211.79.7:18080/bsdyun-open-api/center/order/getSaleOrderCountByPara' ");
+//		sb.append("        select distinct( substr(request_data,13,4)) department_user_id from Bsd_interface_initialdata where interface_name='http://58.211.79.7:18080/bsdyun-open-api/center/order/getSaleOrderCountByPara' and id > 399388 ");
 //		sb.append(" )a ");
 //		sb.append(" inner join d0060 b on a.department_user_id=b.department_user_id and b.system_type=11 ");
 //		sb.append("  ) a ");
-
 		
 		return this.getJdbcTemplate().queryForList(sb.toString());
 	}

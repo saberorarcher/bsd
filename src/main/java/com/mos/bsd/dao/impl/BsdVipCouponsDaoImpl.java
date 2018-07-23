@@ -32,20 +32,20 @@ public class BsdVipCouponsDaoImpl extends X3DBSaveTemplate implements IBsdVipCou
 		sb.append("   merge into D0240 a ");
 		sb.append("   using ( ");
 		sb.append("         select ? coupontype_id,? coupon_issue_date , ");
-		sb.append("         ? coupon_code,? scheme_id,? vip_id,? coupon_used,? coupon_used_date ");
+		sb.append("         ? coupon_code,? coupon_customer,? vip_id,? coupon_used,? coupon_used_date ");
 		sb.append("         ,? department_id,? p0670_id,? coupon_state,'system' coupon_name,'system' coupon_create_name,1 coupon_issue from dual ");
 		sb.append("   )b ");
 		sb.append("   on ( a.coupon_code=b.coupon_code ) ");
 		sb.append("   when matched then ");
 		sb.append("     update set a.coupon_issue_date=b.coupon_issue_date ");
-		sb.append("     ,a.scheme_id=b.scheme_id,a.vip_id=b.vip_id,a.coupon_used=b.coupon_used ");
+		sb.append("     ,a.coupon_customer=b.coupon_customer,a.vip_id=b.vip_id,a.coupon_used=b.coupon_used ");
 		sb.append("     ,a.coupon_used_date=b.coupon_used_date,a.department_id=b.department_id,a.p0670_id=b.p0670_id,a.coupon_state=b.coupon_state,a.coupon_issue=b.coupon_issue ");
 		sb.append("     when not matched then ");
 		sb.append("       insert (coupon_id,a.coupontype_id,a.coupon_issue_date, ");
-		sb.append("         a.coupon_code,a.scheme_id,a.vip_id,a.coupon_used,a.coupon_used_date ");
+		sb.append("         a.coupon_code,a.coupon_customer,a.vip_id,a.coupon_used,a.coupon_used_date ");
 		sb.append("         ,a.department_id,a.p0670_id,a.coupon_state,a.coupon_name,coupon_create_name,coupon_issue) ");
 		sb.append("       values(SEQ_GLOBAL.NEXTVAL,b.coupontype_id,b.coupon_issue_date, ");
-		sb.append("         b.coupon_code,b.scheme_id,b.vip_id,b.coupon_used,b.coupon_used_date ");
+		sb.append("         b.coupon_code,b.coupon_customer,b.vip_id,b.coupon_used,b.coupon_used_date ");
 		sb.append("         ,b.department_id,b.p0670_id,b.coupon_state,b.coupon_name,b.coupon_create_name,b.coupon_issue) ");
 		
 		int count [] = this.getJdbcTemplate().batchUpdate(sb.toString(),new BatchPreparedStatementSetter() {
@@ -54,7 +54,7 @@ public class BsdVipCouponsDaoImpl extends X3DBSaveTemplate implements IBsdVipCou
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
 				
 				String vip_id = String.valueOf(coupons_list.get(i).get("vip_id")).equals("null")?"0":String.valueOf(coupons_list.get(i).get("vip_id"));
-				String coupontype_id = String.valueOf(coupons_list.get(i).get("coupontype_id"));
+				String coupontype_id = String.valueOf(coupons_list.get(i).get("coupontype_id")).trim();
 				Date coupon_issue_date = new Date(Long.parseLong(String.valueOf(coupons_list.get(i).get("coupon_issue_date"))));
 				String coupon_code = String.valueOf(coupons_list.get(i).get("coupon_code"));
 				String scheme_id = String.valueOf(coupons_list.get(i).get("scheme_id"));

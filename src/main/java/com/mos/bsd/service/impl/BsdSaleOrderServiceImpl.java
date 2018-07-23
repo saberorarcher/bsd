@@ -150,9 +150,11 @@ public class BsdSaleOrderServiceImpl implements IBsdSaleOrderService {
 				//开始时间2016-04-01  结束时间2018-06-30   每次+29天
 				Calendar c = Calendar.getInstance();
 				c.set(2016, 3, 1);
+//				c.set(2018, 6, 1);
 				
 				Calendar c1 = Calendar.getInstance();
 				c1.set(2016, 3, 1);
+//				c1.set(2018, 6, 1);
 				c1.add(Calendar.DAY_OF_MONTH, 29);
 				
 				long now = System.currentTimeMillis();

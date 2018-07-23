@@ -42,15 +42,16 @@ public class Test_HttpPostUtils {
 //		{"storeNo":"J528","saleDateEnd":"2018-06-22 00:00:00","offset":0,"limit":10000,"saleDateStart":"2018-05-24 00:00:00"}
 //		jObject.put("openId", "o8J-zjtCc8BG5VaUQdo5jZN5B7zc");
 //		
-//		jObject.put("offset", 0);
-//		jObject.put("limit", 100);
-		jObject.put("ts", "2018-07-13 01:26:12");
+		jObject.put("offset", 0);
+		jObject.put("limit", 10000);
+//		jObject.put("ts", "2018-07-20 00:00:00");
+//		jObject.put("storeNo", "L768");
 //		String beginString = "2011-12-01 00:00:00";
 //		String endString = "2011-12-30 00:00:00";
 //		jObject.put("ts", "2018-06-26 00:00:00");
 		
-//		jObject.put("beginAllocateDate", beginString);
-//		jObject.put("endAllocateDate", endString);
+		jObject.put("beginAllocateDate", "2018-06-07 00:00:00");
+		jObject.put("endAllocateDate", "2018-06-07 23:59:59");
 		
 //		JSONObject result = httpPostUtils.postHttp("http://10.101.4.105:8080/bsdyun-open-api/center/stock/getChangedProductsDetailCount", jObject);
 //		JSONObject result = httpPostUtils.postHttp("http://10.101.4.105:8080/bsdyun-open-api/center/user/getPageMemberDimByPara", jObject);
@@ -60,7 +61,7 @@ public class Test_HttpPostUtils {
 //		JSONObject object = new JSONObject();
 //		String ts = "";
 //		for(int i=0;i<100;i++) {
-			result = postHttp("http://58.211.79.7:18080/bsdyun-open-api/center/marketing/getMemberPointCountByPara", jObject);
+			result = postHttp("http://58.211.79.7:18080/bsdyun-open-api/center/user/getPageMemberDimByPara", jObject);
 			System.out.println(result);
 //		}
 			 

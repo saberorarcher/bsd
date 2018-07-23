@@ -428,7 +428,7 @@ public class BsdStoreServiceImpl implements IBsdStoreService {
 				storeMap.put("depot_brandname", "");
 				storeMap.put("esb_logid", 0.0);
 				storeMap.put("depot_cablepoint", 0.0);
-				storeMap.put("esb_source", "SAP");
+				storeMap.put("esb_source", object.get("brandNo"));
 				storeMap.put("depot_fullname", "");
 				storeMap.put("depot_create_name", "");
 				storeMap.put("merchantsub", new JSONArray());
@@ -500,7 +500,7 @@ public class BsdStoreServiceImpl implements IBsdStoreService {
 				customerMap.put("merchant_type", "1");
 				customerMap.put("operate_state", "0");
 				customerMap.put("merchant_brandcode",object.get("brandNo"));
-				customerMap.put("esb_source", "SAP");
+				customerMap.put("esb_source", object.get("brandNo"));
 				customerMap.put("merchant_begdate", "0001-01-01 00:00:00");
 				customerMap.put("merchant_enddate", "0001-01-01 00:00:00");
 				customerMap.put("merchant_fin_type", "2.0");
@@ -519,7 +519,7 @@ public class BsdStoreServiceImpl implements IBsdStoreService {
 				corpMap.put("merchant_type", "1");
 				corpMap.put("operate_state", "0");
 				corpMap.put("merchant_brandcode",object.get("brandNo"));
-				corpMap.put("esb_source", "SAP");
+				corpMap.put("esb_source", object.get("brandNo"));
 				corpMap.put("merchant_begdate", "0001-01-01 00:00:00");
 				corpMap.put("merchant_enddate", "0001-01-01 00:00:00");
 				corpMap.put("merchant_fin_type", "2.0");
@@ -532,7 +532,7 @@ public class BsdStoreServiceImpl implements IBsdStoreService {
 				areaMap.put("merchant_type", "3");
 				areaMap.put("operate_state", "0");
 				areaMap.put("merchant_brandcode",object.get("brandNo"));
-				areaMap.put("esb_source", "SAP");
+				areaMap.put("esb_source", object.get("brandNo"));
 				areaMap.put("merchant_begdate", "0001-01-01 00:00:00");
 				areaMap.put("merchant_enddate", "0001-01-01 00:00:00");
 				areaMap.put("merchant_fin_type", "0.0");

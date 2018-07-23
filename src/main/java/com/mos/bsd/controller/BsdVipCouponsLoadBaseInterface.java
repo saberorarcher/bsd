@@ -42,7 +42,6 @@ public class BsdVipCouponsLoadBaseInterface {
 				list1.add(responses);
 			}
 		}
-		
 		return list1;
 	}
 }

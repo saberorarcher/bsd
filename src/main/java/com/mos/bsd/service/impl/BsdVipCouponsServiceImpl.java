@@ -176,6 +176,7 @@ public class BsdVipCouponsServiceImpl implements IBsdVipCouponsService {
 			//转换数据
 			if( obj.containsKey("data") && obj.getJSONArray("data")!=null) {
 				JSONArray array = obj.getJSONArray("data");
+				
 				Map<String,List<Map<String,Object>>> return_map = cleanData(array);
 				List<Map<String,Object>> error_list = return_map.get("error");
 				List<Map<String,Object>> data_list = return_map.get("list");
