@@ -33,7 +33,7 @@ public class InitialdataDaoImpl extends X3DBSaveTemplate implements Iinitialdata
 	@Override
 	public int insertData(List<Map<String, String>> initJson) {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		StringBuilder sb = new StringBuilder();
 		sb.append(" insert into Bsd_interface_initialdata (id,interface_name,create_date,request_data,received_data,uuid,status,count_uuid) ");
 		sb.append(" values(BSD_INITDATA_ID.NEXTVAL,?,to_date(?,'yyyy-MM-dd hh24:mi:ss'),?,?,?,0,?) ");

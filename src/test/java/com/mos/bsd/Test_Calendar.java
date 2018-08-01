@@ -60,11 +60,7 @@ public class Test_Calendar {
 //				}
 //			}
 //		}
-		
-		
-		
-		
-		
+			
 //		Map<String,Object> vipMap ;
 //		JSONArray array = new JSONArray();
 //		JSONObject object = new JSONObject();
@@ -251,12 +247,10 @@ public class Test_Calendar {
 //			
 //		}
 		
-		
 //		List<String> list = new ArrayList<>();
 //		List<String> tem_list = new ArrayList<>();
 //		list.add("1");
 //		tem_list.addAll(list.subList(0, list.size()));
-//		
 //		
 //		System.out.println(tem_list);
 //		
@@ -282,23 +276,15 @@ public class Test_Calendar {
 //		
 //		System.out.println(sdf.format(date));
 //		
-//		
-//		
 //		String valueString = "d";
 //		String valueString1 = "abcd";
-//		
 //		
 //		System.out.println(valueString.indexOf(valueString1));
 		
 //		System.out.println(System.currentTimeMillis());
 		
-		
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		System.out.println(sdf.format(new Date(Long.parseLong("1530979200000"))));
-		
-		
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.out.println(sdf.format(new Date(Long.parseLong("1533103110000"))));
 		
 	}
 	
