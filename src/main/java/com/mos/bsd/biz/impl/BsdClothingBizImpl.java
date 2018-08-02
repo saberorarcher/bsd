@@ -450,7 +450,7 @@ public class BsdClothingBizImpl implements IBsdClothingBiz {
 		String url1 = env.getProperty("mos.bsd.url")+"/bsdyun-open-api/center/stock/getPageChangedProductsDetail";
 		
 		JSONObject json = new JSONObject();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String key = "ClothingInterface";
 		
 		//获取时间戳

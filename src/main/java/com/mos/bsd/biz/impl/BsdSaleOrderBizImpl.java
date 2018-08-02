@@ -412,7 +412,7 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 		String beginString ="";
 		String endString="";
 		long ts = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//获取时间戳
 		if( type==1 ) {
 			List<Map<String, Object>> list = planDao.getTampData(key);

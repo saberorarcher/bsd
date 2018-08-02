@@ -195,7 +195,7 @@ public class BsdVipOpenidBizImpl implements IBsdVipOpenidBiz {
 		String url1 = env.getProperty("mos.bsd.url")+"/bsdyun-open-api/center/user/getPageMemberWcpnByPara";
 		HttpPostUtils httpPostUtils = new HttpPostUtils();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if( type==1 ) {
 			List<Map<String, Object>> list = planDao.getTampData(key);
 			if( list==null||list.size()<=0 ) {

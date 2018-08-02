@@ -313,7 +313,7 @@ public class BsdVipCouponsBizImpl implements IBsdVipCouponsBiz {
 				
 		String beginString ="";
 		String endString="";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		//获取时间戳
 		if( type==1 ) {

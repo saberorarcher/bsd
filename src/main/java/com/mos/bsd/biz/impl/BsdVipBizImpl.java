@@ -381,7 +381,7 @@ public class BsdVipBizImpl implements IBsdVipBiz {
 		
 		//接口允许条数限制10000 日期区间跨度限制:30天 TS距当前时间限制:3天
 		HttpPostUtils httpPostUtils = new HttpPostUtils();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String beginString ="";
 		String endString="";
 		JSONObject json = new JSONObject();

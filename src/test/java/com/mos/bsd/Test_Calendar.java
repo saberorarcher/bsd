@@ -283,8 +283,35 @@ public class Test_Calendar {
 		
 //		System.out.println(System.currentTimeMillis());
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println(sdf.format(new Date(Long.parseLong("1533103110000"))));
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		System.out.println(sdf.format(new Date(Long.parseLong("1533103110000"))));
+		
+		JSONObject jsonObject = new JSONObject();
+//		jsonObject.put("success", true);
+//		jsonObject.put("resultCode", "0008");
+//		jsonObject.put("errorMessage", "数据不存在！");
+//		
+//		if( jsonObject.containsKey("success")&&!jsonObject.getBoolean("success") ) {
+//			System.out.println("111111111");
+//		}else {
+//			System.out.println("2222222222");
+//		}
+		
+//		{"department_id":"111209","success":false,"resultCode":"0008","errorMessage":"数据不存在！"}
+		
+		List <Map<String, String>> initJson = new ArrayList<Map<String, String>>();
+		Map<String, String> totalMap = new HashMap<String, String>();
+		
+//		totalMap.put("status","0" );
+		initJson.add(totalMap);
+		
+		for( Map<String, String> map:initJson ) {
+			if(map.containsKey("status")) {
+				System.out.println("true");
+			}else {
+				System.out.println("false");
+			}
+		}
 		
 	}
 	

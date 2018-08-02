@@ -204,7 +204,7 @@ public class BsdVipScoreBizImpl implements IBsdVipScoreBiz {
 		
 		String beginString ="";
 		String endString="";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		long ts = System.currentTimeMillis();
 		
 		//获取时间戳

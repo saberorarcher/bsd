@@ -41,7 +41,7 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 		sb.append(" merge into d_retail a ");
 		sb.append(" using ( ");
 		sb.append("       select ? bill_diff_bill_id,0 bill_czid,19 as system_type,? set_department_id,? move_dpt ");
-		sb.append("       ,? bill_create_date,? bill_setdate,? bill_state,? bill_type,? bill_num,? bill_ssum,? bill_create_name, ");
+		sb.append("       ,sysdate bill_create_date,? bill_setdate,? bill_state,? bill_type,? bill_num,? bill_ssum,? bill_create_name, ");
 		sb.append("       ? bill_remark,? bill_return_reason,? bill_return_deal,? ex_class1,? ex_class2,? ex_class3,? ex_class4,? bill_idcode, 0 set_department_parent_id,0 get_department_parent_id  ");
 		sb.append("       ,? bill_code from dual ");
 		sb.append(" )b ");
@@ -68,22 +68,22 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 				ps.setString(1, String.valueOf(list.get(i).get("bill_diff_bill_id")));
 				ps.setString(2, String.valueOf(list.get(i).get("set_department_id")));
 				ps.setString(3, String.valueOf(list.get(i).get("move_dpt")));
-				ps.setDate(4, new Date(Long.parseLong(String.valueOf(list.get(i).get("bill_create_date")))));
-				ps.setDate(5, new Date(Long.parseLong(String.valueOf(list.get(i).get("bill_setdate")))));
-				ps.setString(6, String.valueOf(list.get(i).get("bill_state")));
-				ps.setString(7, String.valueOf(list.get(i).get("bill_type")));
-				ps.setString(8, String.valueOf(list.get(i).get("bill_num")));
-				ps.setString(9, String.valueOf(list.get(i).get("bill_ssum")));
-				ps.setString(10, String.valueOf(list.get(i).get("bill_create_name")));
-				ps.setString(11, String.valueOf(list.get(i).get("bill_remark")));
-				ps.setString(12, String.valueOf(list.get(i).get("bill_return_reason")));
-				ps.setString(13, String.valueOf(list.get(i).get("bill_return_deal")));
-				ps.setString(14, String.valueOf(list.get(i).get("ex_class1")));
-				ps.setString(15, String.valueOf(list.get(i).get("ex_class2")));
-				ps.setString(16, String.valueOf(list.get(i).get("ex_class3")));
-				ps.setString(17, String.valueOf(list.get(i).get("ex_class4")));
-				ps.setString(18, String.valueOf(list.get(i).get("bill_idcode")));
-				ps.setString(19, String.valueOf(list.get(i).get("bill_id")).trim());
+//				ps.setDate(4, new Date(Long.parseLong(String.valueOf(list.get(i).get("bill_create_date")))));
+				ps.setDate(4, new Date(Long.parseLong(String.valueOf(list.get(i).get("bill_setdate")))));
+				ps.setString(5, String.valueOf(list.get(i).get("bill_state")));
+				ps.setString(6, String.valueOf(list.get(i).get("bill_type")));
+				ps.setString(7, String.valueOf(list.get(i).get("bill_num")));
+				ps.setString(8, String.valueOf(list.get(i).get("bill_ssum")));
+				ps.setString(9, String.valueOf(list.get(i).get("bill_create_name")));
+				ps.setString(10, String.valueOf(list.get(i).get("bill_remark")));
+				ps.setString(11, String.valueOf(list.get(i).get("bill_return_reason")));
+				ps.setString(12, String.valueOf(list.get(i).get("bill_return_deal")));
+				ps.setString(13, String.valueOf(list.get(i).get("ex_class1")));
+				ps.setString(14, String.valueOf(list.get(i).get("ex_class2")));
+				ps.setString(15, String.valueOf(list.get(i).get("ex_class3")));
+				ps.setString(16, String.valueOf(list.get(i).get("ex_class4")));
+				ps.setString(17, String.valueOf(list.get(i).get("bill_idcode")));
+				ps.setString(18, String.valueOf(list.get(i).get("bill_id")).trim());
 				
 			}
 			

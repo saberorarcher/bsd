@@ -36,7 +36,7 @@ public class InitialdataDaoImpl extends X3DBSaveTemplate implements Iinitialdata
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		StringBuilder sb = new StringBuilder();
 		sb.append(" insert into Bsd_interface_initialdata (id,interface_name,create_date,request_data,received_data,uuid,status,count_uuid) ");
-		sb.append(" values(BSD_INITDATA_ID.NEXTVAL,?,to_date(?,'yyyy-MM-dd hh24:mi:ss'),?,?,?,0,?) ");
+		sb.append(" values(BSD_INITDATA_ID.NEXTVAL,?,to_date(?,'yyyy-MM-dd hh24:mi:ss'),?,?,?,?,?) ");
 
 		int count[] = this.getJdbcTemplate().batchUpdate(sb.toString(),new BatchPreparedStatementSetter() {
 			
@@ -50,7 +50,12 @@ public class InitialdataDaoImpl extends X3DBSaveTemplate implements Iinitialdata
 				StringReader reader = new StringReader(String.valueOf(initJson.get(i).get("received_data")));
 				ps.setCharacterStream(4, reader, String.valueOf(initJson.get(i).get("received_data")).length());
 				ps.setString(5, String.valueOf(initJson.get(i).get("uuid")));
-				ps.setString(6, String.valueOf(initJson.get(i).get("cuuid")));
+				if(initJson.get(i).containsKey("status")) {
+					ps.setString(6, "1");
+				}else {
+					ps.setString(6, "0");
+				}
+				ps.setString(7, String.valueOf(initJson.get(i).get("cuuid")));
 //				ps.setString(7, String.valueOf(initJson.get(i).get("department_user_id")));
 			}
 			

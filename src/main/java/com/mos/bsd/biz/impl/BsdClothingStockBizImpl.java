@@ -153,7 +153,7 @@ public class BsdClothingStockBizImpl implements IBsdClothingStockBiz {
 	public int getBaseData(String department_id, String department_user_id, int type) {
 		
 		String key = "ClothingStockInterface";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String cuuid = UUID.randomUUID().toString();
 		//用来存储访问和返回数据
 		List <Map<String, String>> initJson = new ArrayList<Map<String, String>>();
@@ -178,7 +178,12 @@ public class BsdClothingStockBizImpl implements IBsdClothingStockBiz {
 		json.put("storeNo", department_user_id);
 		
 		JSONObject c_jObject = httpPostUtils.postHttp(url, json);
+		
+		//解析json,如果是失败的记录，则直接保存状态为1,不需要读取
 		c_jObject.put("department_id", department_id);
+		if( c_jObject.containsKey("success")&&!c_jObject.getBoolean("success") ) {
+			totalMap.put("status","1" );
+		}
 		
 		totalMap.put("interface_name",url );
 		totalMap.put("request_data", json.toJSONString());
@@ -189,7 +194,6 @@ public class BsdClothingStockBizImpl implements IBsdClothingStockBiz {
 		totalMap.put("department_user_id",department_user_id );
 		initJson.add(totalMap);
 
-//		planDao.updateTamp(key, String.valueOf(ts));
 		int count = 0;
 		if( initJson!=null && initJson.size()>0 ) {
 			count = initDao.insertData(initJson);

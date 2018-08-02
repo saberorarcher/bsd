@@ -385,7 +385,7 @@ public class BsdStoreBizImpl implements IBsdStoreBiz {
 		String url = env.getProperty("mos.bsd.url")+"/bsdyun-open-api/center/store/getChangedStoreByTs";//http地址
 		
 		JSONObject condition = new JSONObject();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		long ts = System.currentTimeMillis();
 		//获取时间戳
 		if( type==1 ) {
