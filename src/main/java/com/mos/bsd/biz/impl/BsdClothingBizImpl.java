@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mos.bsd.biz.IBsdClothingBiz;
+import com.mos.bsd.biz.IBsdCommonBiz;
 import com.mos.bsd.dao.IBsdClothingDao;
 import com.mos.bsd.dao.IBsdPlanDao;
 import com.mos.bsd.dao.IinitialdataDao;
@@ -42,6 +43,9 @@ public class BsdClothingBizImpl implements IBsdClothingBiz {
 	
 	@Resource(name="com.mos.bsd.dao.impl.InitialdataDaoImpl")
 	private IinitialdataDao initDao;
+	
+	@Resource(name="com.mos.bsd.biz.impl.BsdCommonBizImpl")
+	private IBsdCommonBiz commonBiz;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BsdClothingBizImpl.class);
 	 
@@ -444,7 +448,9 @@ public class BsdClothingBizImpl implements IBsdClothingBiz {
 		
 		String cuuid = UUID.randomUUID().toString();
 		List <Map<String, String>> initJson = new ArrayList<Map<String, String>>();
+		List <Map<String, String>> logData = new ArrayList<Map<String, String>>();
 		Map<String, String> totalMap = new HashMap<String, String>();
+		Map<String, String> logMap;
 		Map<String, String> detailMap;
 		String url = env.getProperty("mos.bsd.url")+"/bsdyun-open-api/center/stock/getChangedProductsDetailCount";
 		String url1 = env.getProperty("mos.bsd.url")+"/bsdyun-open-api/center/stock/getPageChangedProductsDetail";
@@ -467,9 +473,32 @@ public class BsdClothingBizImpl implements IBsdClothingBiz {
 		}
 		
 		HttpPostUtils httpPostUtils = new HttpPostUtils();
-		
 		JSONObject c_jObject = httpPostUtils.postHttp(url, json);
 		
+		long endTs = System.currentTimeMillis();
+		long diffTs = endTs-ts;
+		
+		String resMsg;
+		String status = "1";
+		if( c_jObject.containsKey("success")&&c_jObject.getBoolean("success") ) {
+			resMsg = "";
+		}else {
+			resMsg = c_jObject.getString("errorMessage");
+			status = "0";
+		}
+		
+		//保存日志
+		logMap = new HashMap<>();
+		logMap.put("name", url);
+		logMap.put("req_data", json.toJSONString());
+		logMap.put("res_data", resMsg);
+		logMap.put("status", status);
+		logMap.put("req_time", String.valueOf(ts));
+		logMap.put("res_time", String.valueOf(endTs));
+		logMap.put("times", String.valueOf(diffTs));
+		logData.add(logMap);
+		
+		//保存原始数据
 		totalMap.put("interface_name",url );
 		totalMap.put("request_data", json.toJSONString());
 		totalMap.put("create_date", String.valueOf(System.currentTimeMillis()));
@@ -483,7 +512,6 @@ public class BsdClothingBizImpl implements IBsdClothingBiz {
 		}
 		
 		int number = Integer.parseInt(c_jObject.getString("data"));
-		
 		int num = number%200>0?number/200+1:number/200;
 		
 		for( int i=0;i<num;i++ ) {
@@ -491,13 +519,36 @@ public class BsdClothingBizImpl implements IBsdClothingBiz {
 			json.put("offset", i*200);
 			json.put("limit", 200);
 		
+			long begTs = System.currentTimeMillis();
 			JSONObject jo = httpPostUtils.postHttp(url1, json);		
+			long endTs1 = System.currentTimeMillis();
+			long diffTs2 = endTs1-begTs;
+			
+			if( jo.containsKey("success") && jo.getBoolean("success") ) {
+				resMsg = "";
+				status = "1";
+			}else {
+				resMsg = jo.getString("errorMessage");
+				status = "0";
+			}
+			
+			//保存日志
+			logMap = new HashMap<>();
+			logMap.put("name", url1);
+			logMap.put("req_data", json.toJSONString());
+			logMap.put("res_data", resMsg);
+			logMap.put("status", status);
+			logMap.put("req_time", String.valueOf(begTs));
+			logMap.put("res_time", String.valueOf(endTs1));
+			logMap.put("times", String.valueOf(diffTs2));
+			logData.add(logMap);
 			
 			boolean success = jo.getBoolean("success");
 			if( !success ) {
 				throw new BusinessException("BsdClothingBizImpl-01",jo.getString("errorMessage"));
 			}
 			
+			//保存原始数据
 			detailMap = new HashMap<>();
 			detailMap.put("interface_name",url1 );
 			detailMap.put("request_data", json.toJSONString());
@@ -513,6 +564,10 @@ public class BsdClothingBizImpl implements IBsdClothingBiz {
 		int count = 0;
 		if( initJson!=null && initJson.size()>0 ) {
 			count = initDao.insertData(initJson);
+		}
+		
+		if( logData!=null && logData.size()>0 ) {
+			commonBiz.saveLog(logData);
 		}
 
 		return count;

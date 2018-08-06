@@ -1,10 +1,10 @@
 package com.mos.bsd;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -286,7 +286,7 @@ public class Test_Calendar {
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		System.out.println(sdf.format(new Date(Long.parseLong("1533103110000"))));
 		
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
 //		jsonObject.put("success", true);
 //		jsonObject.put("resultCode", "0008");
 //		jsonObject.put("errorMessage", "数据不存在！");
@@ -299,19 +299,24 @@ public class Test_Calendar {
 		
 //		{"department_id":"111209","success":false,"resultCode":"0008","errorMessage":"数据不存在！"}
 		
-		List <Map<String, String>> initJson = new ArrayList<Map<String, String>>();
-		Map<String, String> totalMap = new HashMap<String, String>();
+//		List <Map<String, String>> initJson = new ArrayList<Map<String, String>>();
+//		Map<String, String> totalMap = new HashMap<String, String>();
 		
 //		totalMap.put("status","0" );
-		initJson.add(totalMap);
+//		initJson.add(totalMap);
+//		
+//		for( Map<String, String> map:initJson ) {
+//			if(map.containsKey("status")) {
+//				System.out.println("true");
+//			}else {
+//				System.out.println("false");
+//			}
+//		}
 		
-		for( Map<String, String> map:initJson ) {
-			if(map.containsKey("status")) {
-				System.out.println("true");
-			}else {
-				System.out.println("false");
-			}
-		}
+		System.out.println(new Date(System.currentTimeMillis()));
+		
+		
+		
 		
 	}
 	
