@@ -224,8 +224,8 @@ public class BsdVipOpenidBizImpl implements IBsdVipOpenidBiz {
 		
 		for( int i=0;i<num;i++ ) {
 			//分页参数
-			json.put("offset", i*1000);
-			json.put("limit", 1000);
+			json.put("offset", i*10000);
+			json.put("limit", 10000);
 			
 			JSONObject jo = httpPostUtils.postHttp(url1, json);
 			

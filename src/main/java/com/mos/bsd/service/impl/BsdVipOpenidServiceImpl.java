@@ -146,7 +146,6 @@ public class BsdVipOpenidServiceImpl implements IBsdVipOpenidService {
 			openid_biz.getVipBaseData("","",type);
 		}
 		
-		
 		//设置返回消息
 		BSDResponse response = new BSDResponse();
 		response.setErrorData("");

@@ -275,15 +275,15 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 	@Override
 	public List<Map<String, Object>> getStoreList() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" select department_id,department_user_id from ( ");
+//		sb.append(" select department_id,department_user_id from ( ");
 		sb.append("   select department_id,department_user_id from d0060 where system_type=11 and department_type=1 ");
-		sb.append("   minus ");
-		sb.append("   select d.department_id,d.department_user_id from d0060 a ");
-		sb.append("          inner join d0060 b on a.department_id=b.department_parent_id ");
-		sb.append("          inner join d0060 c on b.department_id=c.department_parent_id ");
-		sb.append("          inner join d0060 d on c.department_id=d.department_parent_id ");
-		sb.append("   where a.department_user_id in('A101','A008','A102','A901') ");
-		sb.append(" ) a ");
+//		sb.append("   minus ");
+//		sb.append("   select d.department_id,d.department_user_id from d0060 a ");
+//		sb.append("          inner join d0060 b on a.department_id=b.department_parent_id ");
+//		sb.append("          inner join d0060 c on b.department_id=c.department_parent_id ");
+//		sb.append("          inner join d0060 d on c.department_id=d.department_parent_id ");
+//		sb.append("   where a.department_user_id in('A101','A008','A102','A901') ");
+//		sb.append(" ) a ");
 		
 //		StringBuilder sb = new StringBuilder();
 //		sb.append(" select a.department_user_id,a.department_id from d0060 a ");
