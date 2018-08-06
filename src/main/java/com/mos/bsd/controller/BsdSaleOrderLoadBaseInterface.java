@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mos.bsd.domain.BSDResponse;
-import com.mos.bsd.domain.InitialdataEntity;
 import com.mos.bsd.service.IBsdSaleOrderService;
 
 import io.swagger.annotations.Api;
@@ -34,11 +33,15 @@ public class BsdSaleOrderLoadBaseInterface {
 	public List<BSDResponse> sapToX2Bills() {
 		
 		List<BSDResponse> list1 = new ArrayList<BSDResponse>();
-		List<Map<String, InitialdataEntity>> list = saleOrderService.getClothingBaseData();
-		if( list!=null&&list.size()>0 ) {
-			for(Map<String, InitialdataEntity> map:list) {
+		//原始读取数据方式
+//		List<Map<String, InitialdataEntity>> list = saleOrderService.getClothingBaseData();
+		
+		//新的读取方式
+		List<Map<String, Object>> list = saleOrderService.getTemData();
+		if( list!=null && list.size()>0 ) {
+			for(Map<String, Object> map:list) {
 				// 返回消息
-				BSDResponse responses = saleOrderService.getLoadBaseData(map.get("id"));
+				BSDResponse responses = saleOrderService.getLoadTemData(map);
 				list1.add(responses);
 			}
 		}

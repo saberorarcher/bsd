@@ -51,5 +51,16 @@ public interface IBsdSaleOrderDao {
 	 * @return
 	 */
 	List<Map<String, Object>> getYear_list(List<Map<String, Object>> retailsubList);
+	/**
+	 * 查询未读取的数据
+	 * @return
+	 */
+	List<Map<String, Object>> getTemData();
+	/**
+	 * 修改错误数据
+	 * @param id
+	 * @return
+	 */
+	int updateErrorData(String id);
 
 }

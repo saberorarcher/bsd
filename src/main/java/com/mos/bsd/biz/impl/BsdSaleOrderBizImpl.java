@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.mos.bsd.biz.IBsdCommonBiz;
 import com.mos.bsd.biz.IBsdSaleOrderBiz;
 import com.mos.bsd.dao.IBsdPlanDao;
 import com.mos.bsd.dao.IBsdSaleOrderDao;
@@ -43,6 +44,9 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 	
 	@Resource(name="com.mos.bsd.dao.impl.InitialdataDaoImpl")
 	private IinitialdataDao initDao;
+	
+	@Resource(name="com.mos.bsd.biz.impl.BsdCommonBizImpl")
+	private IBsdCommonBiz commonBiz;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BsdSaleOrderBizImpl.class);
 	
@@ -387,7 +391,6 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 //			}
 //			
 //		}
-		
 		errorMap.put("error", errorDataList);
 		
 		return errorMap;
@@ -399,6 +402,13 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 		String cuuid = UUID.randomUUID().toString();
 		//用来存储访问和返回数据
 		List <Map<String, String>> initJson = new ArrayList<Map<String, String>>();
+		//访问日志list
+		List <Map<String, String>> logData = new ArrayList<Map<String, String>>();
+		//临时表数据
+		List <Map<String, Object>> temData = new ArrayList<Map<String, Object>>();
+		
+		Map<String, Object> temMap;
+		Map<String, String> logMap;
 		Map<String, String> totalMap = new HashMap<String, String>();
 		Map<String, String> detailMap;
 		
@@ -435,8 +445,31 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 		
 		JSONObject c_jObject = httpPostUtils.postHttp(url, json);
 		
+		//保存日志
+		long endTs = System.currentTimeMillis();
+		long diffTs = endTs-ts;
+		
+		String resMsg;
+		String status = "1";
+		if( c_jObject.containsKey("success")&&c_jObject.getBoolean("success") ) {
+			resMsg = "";
+		}else {
+			resMsg = c_jObject.getString("errorMessage");
+			status = "0";
+		}
+		
+		//保存map
+		logMap = new HashMap<>();
+		logMap.put("name", url);
+		logMap.put("req_data", json.toJSONString());
+		logMap.put("res_data", resMsg);
+		logMap.put("status", status);
+		logMap.put("req_time", String.valueOf(ts));
+		logMap.put("res_time", String.valueOf(endTs));
+		logMap.put("times", String.valueOf(diffTs));
+		logData.add(logMap);
+		
 		if (c_jObject.getBoolean("success") != null && !c_jObject.getBoolean("success")) {
-
 			logger.error(c_jObject.getString("errorMessage"));
 			return 0;
 		}
@@ -461,7 +494,30 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 			
 			json.put("offset", i*10000);
 			json.put("limit",10000);
+			long begTs = System.currentTimeMillis();
 			JSONObject jo = httpPostUtils.postHttp(url1, json);
+			
+			long endTs1 = System.currentTimeMillis();
+			long diffTs2 = endTs1-begTs;
+			
+			if( jo.containsKey("success") && jo.getBoolean("success") ) {
+				resMsg = "";
+				status = "1";
+			}else {
+				resMsg = jo.getString("errorMessage");
+				status = "0";
+			}
+			
+			//保存日志
+			logMap = new HashMap<>();
+			logMap.put("name", url1);
+			logMap.put("req_data", json.toJSONString());
+			logMap.put("res_data", resMsg);
+			logMap.put("status", status);
+			logMap.put("req_time", String.valueOf(begTs));
+			logMap.put("res_time", String.valueOf(endTs1));
+			logMap.put("times", String.valueOf(diffTs2));
+			logData.add(logMap);
 			
 			boolean success = jo.getBoolean("success");
 			
@@ -469,24 +525,81 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 				logger.error(jo.getString("errorMessage"));
 				continue;
 			}
-			
 			jo.put("department_id", department_id);
 			
+			String uuid = UUID.randomUUID().toString();
 			detailMap = new HashMap<>();
 			detailMap.put("interface_name",url1 );
 			detailMap.put("request_data", json.toJSONString());
 			detailMap.put("create_date", String.valueOf(System.currentTimeMillis()));
 			detailMap.put("received_data", jo.toJSONString());
-			detailMap.put("uuid",UUID.randomUUID().toString());
+			detailMap.put("uuid",uuid);
 			detailMap.put("cuuid",cuuid);
 			detailMap.put("department_user_id",department_user_id);
 			initJson.add(detailMap);
+			
+			//解析json，保存进TEMP_MT_ORDER_BSD
+			if( success ) {
+				JSONArray jsonArray = jo.getJSONArray("data");
+				if( jsonArray!=null && jsonArray.size()>0 ) {
+					//整理成list
+					for( Object object:jsonArray ) {
+						JSONObject j1 = (JSONObject)object;
+						temMap = new HashMap<>();
+						temMap.put("dataId", uuid);
+						temMap.put("orderNo", j1.get("orderNo"));
+						temMap.put("corpNo", j1.get("corpNo"));
+						temMap.put("customerNo", j1.get("customerNo"));
+						temMap.put("storeNo", j1.get("storeNo"));
+						temMap.put("deliveryStoreNo", j1.get("deliveryStoreNo"));
+						temMap.put("billDate", j1.get("billDate"));
+						temMap.put("saleDate", j1.get("saleDate"));
+						temMap.put("saleTime", j1.get("saleTime"));
+						temMap.put("relativeOrderNo", j1.get("relativeOrderNo"));
+						temMap.put("orderStatus", j1.get("orderStatus"));
+						temMap.put("billSource", j1.get("billSource"));
+						temMap.put("orderType", j1.get("orderType"));
+						temMap.put("sellType", j1.get("sellType"));
+						temMap.put("o2oType", j1.get("o2oType"));
+						temMap.put("clerkId", j1.get("clerkId"));
+						temMap.put("deliveryClerkId", j1.get("deliveryClerkId"));
+						temMap.put("posCode", j1.get("posCode"));
+						temMap.put("discountCoupon", j1.get("discountCoupon"));
+						temMap.put("memberId", j1.get("memberId"));
+						temMap.put("exchangePoint", j1.get("exchangePoint"));
+						temMap.put("exchangeAmount", j1.get("exchangeAmount"));
+						temMap.put("isBirthdayConsume", j1.get("isBirthdayConsume"));
+						temMap.put("isBirthdayDiscount", j1.get("isBirthdayDiscount"));
+						temMap.put("saleNum", j1.get("saleNum"));
+						temMap.put("saleAmount", j1.get("saleAmount"));
+						temMap.put("carryDown", j1.get("carryDown"));
+						temMap.put("createUser", j1.get("createUser"));
+						temMap.put("remark", j1.get("remark"));
+						temMap.put("saleOrderPaymentDTOs", j1.get("saleOrderPaymentDTOs"));
+						temMap.put("saleOrderDtlDTOs", j1.get("saleOrderDtlDTOs"));
+						temMap.put("saleOrderExtDTO", j1.get("saleOrderExtDTO"));
+						temMap.put("validFlag", j1.get("validFlag"));
+						temMap.put("couponsNo", j1.get("couponsNo"));
+						temMap.put("department_id", department_id);
+						
+						temData.add(temMap);
+					}
+				}
+			}
 		}
-		
-//		planDao.updateTamp(key, String.valueOf(ts));
+
 		int count = 0;
 		if( initJson!=null && initJson.size()>0 ) {
 			count = initDao.insertData(initJson);
+		}
+		//保存日志
+		if( logData!=null && logData.size()>0 ) {
+			commonBiz.saveLog(logData);
+		}
+		
+		//保存进临时表TEMP_MT_ORDER_BSD
+		if( temData!=null && temData.size()>0 ) {
+			initDao.insertTemData(temData);
 		}
 		
 		return count ;
@@ -494,12 +607,19 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 
 	@Override
 	public List<Map<String, InitialdataEntity>> getClothingBaseData() {
-		
 		String url1 = env.getProperty("mos.bsd.url")+"/bsdyun-open-api/center/order/getPageSaleOrderByPara";
-		
 		return initDao.getInitData("0", url1);
 		
 	}
 
+	@Override
+	public List<Map<String, Object>> getTemData() {
+		return sale_dao.getTemData();
+	}
+
+	@Override
+	public int updateErrorData(String id) {
+		return sale_dao.updateErrorData(id);
+	}
 
 }

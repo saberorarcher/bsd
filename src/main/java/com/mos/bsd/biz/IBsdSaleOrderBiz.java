@@ -37,5 +37,15 @@ public interface IBsdSaleOrderBiz {
 	 * @return
 	 */
 	List<Map<String, InitialdataEntity>> getClothingBaseData();
+	/**
+	 * 查询未读取的数据
+	 * @return
+	 */
+	List<Map<String, Object>> getTemData();
+	/**
+	 * 修改状态
+	 * @param valueOf
+	 */
+	int updateErrorData(String valueOf);
 
 }

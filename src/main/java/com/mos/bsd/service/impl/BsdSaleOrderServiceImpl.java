@@ -205,9 +205,7 @@ public class BsdSaleOrderServiceImpl implements IBsdSaleOrderService {
 					try {
 						
 						Map<String, List<Map<String, Object>>> returnMap = saleOrderBiz.saveDataToX2(return_map);
-						
 						List<Map<String, Object>> list2 = returnMap.get("returnMap");
-						
 						if( list2!=null && list2.size()>0 ) {
 							errorlist.add(entity.getUuid());
 						}
@@ -405,6 +403,109 @@ public class BsdSaleOrderServiceImpl implements IBsdSaleOrderService {
 	public List<Map<String, Object>> getStoreList() {
 		List<Map<String, Object>> list = saleOrderBiz.getStoreList();
 		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> getTemData() {
+		return saleOrderBiz.getTemData();
+	}
+
+	@Override
+	public BSDResponse getLoadTemData(Map<String, Object> map) {
+		//转换为jsonObject
+		JSONObject jObject = mapToJson(map);
+		
+		//转换数据
+		JSONArray array = new JSONArray();
+		array.add(jObject);
+		
+		String department_id = String.valueOf(map.get("department_id"));
+		boolean flag = true;
+		List<String> errorlist = new ArrayList<>();
+		Map<String,List<Map<String,Object>>> return_map = cleanData(array,department_id);
+		List<Map<String,Object>> error_list = return_map.get("error");
+		List<Map<String,Object>> data_list = return_map.get("retailList");
+		if( data_list!=null && data_list.size()>0 ) {
+			try {
+				
+				Map<String, List<Map<String, Object>>> returnMap = saleOrderBiz.saveDataToX2(return_map);
+				List<Map<String, Object>> list2 = returnMap.get("returnMap");
+				if( list2!=null && list2.size()>0 ) {
+					errorlist.add(String.valueOf(map.get("id")));
+				}
+				
+			} catch (Exception e) {
+				errorlist.add(String.valueOf(map.get("id")));
+				logger.error(e.getMessage());
+			}
+		}
+		
+		if( error_list!=null&&error_list.size()>0 ) {
+			flag = false;
+		}
+		
+		if( !flag ) {
+			errorlist.add(String.valueOf(map.get("id")));
+		}
+		
+		//将错误数据修改为2状态
+		if( errorlist!=null&&errorlist.size()>0 ) {
+			saleOrderBiz.updateErrorData(String.valueOf(map.get("id")));
+		}
+		
+		BSDResponse response = new BSDResponse();
+		if( errorlist!=null&&errorlist.size()>0 ) {
+			response.setMsg("同步失败");
+			response.setErrorData(errorlist.toString());
+			response.setStatus("error");
+			response.setMsgId(UUID.randomUUID().toString());
+		}else {
+			response.setMsg("同步成功");
+			response.setErrorData("");
+			response.setStatus("success");
+			response.setMsgId(UUID.randomUUID().toString());
+		}
+		
+		return response;
+	}
+
+	private JSONObject mapToJson(Map<String, Object> map) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("orderNo", map.get("orderNo"));
+		jsonObject.put("corpNo", map.get("corpNo"));
+		jsonObject.put("customerNo", map.get("customerNo"));
+		jsonObject.put("storeNo", map.get("storeNo"));
+		jsonObject.put("deliveryStoreNo", map.get("deliveryStoreNo"));
+		jsonObject.put("billDate", map.get("billDate"));
+		jsonObject.put("saleDate", map.get("saleDate"));
+		jsonObject.put("saleTime", map.get("saleTime"));
+		jsonObject.put("relativeOrderNo", map.get("relativeOrderNo"));
+		jsonObject.put("orderStatus", map.get("orderStatus"));
+		jsonObject.put("billSource", map.get("billSource"));
+		jsonObject.put("orderType", map.get("orderType"));
+		jsonObject.put("sellType", map.get("sellType"));
+		jsonObject.put("o2oType", map.get("o2oType"));
+		jsonObject.put("clerkId", map.get("clerkId"));
+		jsonObject.put("deliveryClerkId", map.get("deliveryClerkId"));
+		jsonObject.put("posCode", map.get("posCode"));
+		jsonObject.put("discountCoupon", map.get("discountCoupon"));
+		jsonObject.put("memberId", map.get("memberId"));
+		jsonObject.put("exchangePoint", map.get("exchangePoint"));
+		jsonObject.put("exchangeAmount", map.get("exchangeAmount"));
+		jsonObject.put("isBirthdayConsume", map.get("isBirthdayConsume"));
+		jsonObject.put("isBirthdayDiscount", map.get("isBirthdayDiscount"));
+		jsonObject.put("saleNum", map.get("saleNum"));
+		jsonObject.put("saleAmount", map.get("saleAmount"));
+		jsonObject.put("carryDown", map.get("carryDown"));
+		jsonObject.put("createUser", map.get("createUser"));
+		jsonObject.put("remark", map.get("remark"));
+		jsonObject.put("saleOrderPaymentDTOs", map.get("saleOrderPaymentDTOs"));
+		jsonObject.put("saleOrderDtlDTOs", map.get("saleOrderDtlDTOs"));
+		jsonObject.put("saleOrderExtDTO", map.get("saleOrderExtDTO"));
+		jsonObject.put("validFlag", map.get("validFlag"));
+		jsonObject.put("couponsNo", map.get("couponsNo"));
+		
+		return jsonObject;
 	}
 
 }

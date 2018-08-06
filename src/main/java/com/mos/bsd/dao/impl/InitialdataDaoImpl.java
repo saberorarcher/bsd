@@ -142,4 +142,67 @@ public class InitialdataDaoImpl extends X3DBSaveTemplate implements Iinitialdata
 		return  this.getJdbcTemplate().update(sb.toString(),new Object[] { i,uuid });
 	}
 
+	@Override
+	public int insertTemData(List<Map<String, Object>> temData) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" insert into TEMP_MT_ORDER_BSD(id,dataId,orderNo,corpNo,customerNo,storeNo,deliveryStoreNo,billDate,saleDate, ");
+		sb.append(" saleTime,relativeOrderNo,orderStatus,billSource,orderType,sellType,o2oType,clerkId,deliveryClerkId,posCode, ");
+		sb.append(" discountCoupon,memberId,exchangePoint,exchangeAmount,isBirthdayConsume,isBirthdayDiscount,saleNum,saleAmount, ");
+		sb.append(" carryDown,createUser,remark,saleOrderPaymentDTOs,saleOrderDtlDTOs,saleOrderExtDTO,validFlag,couponsNo,createDate,department_id) ");
+		sb.append(" values(SEQ_TEMP_MT_ORDER_BSD.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,sysdate,?) ");
+		
+		int count [] = this.getJdbcTemplate().batchUpdate(sb.toString(),new BatchPreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				ps.setObject(1, temData.get(i).get("dataId"));
+				ps.setObject(2, temData.get(i).get("orderNo"));
+				ps.setObject(3, temData.get(i).get("corpNo"));
+				ps.setObject(4, temData.get(i).get("customerNo"));
+				ps.setObject(5, temData.get(i).get("storeNo"));
+				ps.setObject(6, temData.get(i).get("deliveryStoreNo"));
+				ps.setObject(7, temData.get(i).get("billDate"));
+				ps.setObject(8, temData.get(i).get("saleDate"));
+				ps.setObject(9, temData.get(i).get("saleTime"));
+				ps.setObject(10, temData.get(i).get("relativeOrderNo"));
+				ps.setObject(11, temData.get(i).get("orderStatus"));
+				ps.setObject(12, temData.get(i).get("billSource"));
+				ps.setObject(13, temData.get(i).get("orderType"));
+				ps.setObject(14, temData.get(i).get("sellType"));
+				ps.setObject(15, temData.get(i).get("o2oType"));
+				ps.setObject(16, temData.get(i).get("clerkId"));
+				ps.setObject(17, temData.get(i).get("deliveryClerkId"));
+				ps.setObject(18, temData.get(i).get("posCode"));
+				ps.setObject(19, temData.get(i).get("discountCoupon"));
+				ps.setObject(20, temData.get(i).get("memberId"));
+				ps.setObject(21, temData.get(i).get("exchangePoint"));
+				ps.setObject(22, temData.get(i).get("exchangeAmount"));
+				ps.setObject(23, temData.get(i).get("isBirthdayConsume"));
+				ps.setObject(24, temData.get(i).get("isBirthdayDiscount"));
+				ps.setObject(25, temData.get(i).get("saleNum"));
+				ps.setObject(26, temData.get(i).get("saleAmount"));
+				ps.setObject(27, temData.get(i).get("carryDown"));
+				ps.setObject(28, temData.get(i).get("createUser"));
+				ps.setObject(29, temData.get(i).get("remark"));
+				ps.setObject(30, temData.get(i).get("saleOrderPaymentDTOs"));
+				
+				StringReader reader = new StringReader(String.valueOf(temData.get(i).get("saleOrderDtlDTOs")));
+				ps.setCharacterStream(31, reader, String.valueOf(temData.get(i).get("saleOrderDtlDTOs")).length());
+				
+				ps.setObject(32, temData.get(i).get("saleOrderExtDTO"));
+				ps.setObject(33, temData.get(i).get("validFlag"));
+				ps.setObject(34, temData.get(i).get("couponsNo"));
+				ps.setObject(35, temData.get(i).get("createDate"));
+				ps.setObject(36, temData.get(i).get("department_id"));
+			}
+			
+			@Override
+			public int getBatchSize() {
+				return temData.size();
+			}
+		});
+		
+		return count.length;
+	}
+
 }

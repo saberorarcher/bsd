@@ -419,4 +419,25 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 		return this.getJdbcTemplate().queryForList(sb.toString());
 	}
 
+	@Override
+	public List<Map<String, Object>> getTemData() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select ");
+		sb.append("        id,dataId,orderNo,corpNo,customerNo,storeNo,deliveryStoreNo,billDate,saleDate, ");
+		sb.append("        saleTime,relativeOrderNo,orderStatus,billSource,orderType,sellType,o2oType,clerkId,deliveryClerkId,posCode, ");
+		sb.append("        discountCoupon,memberId,exchangePoint,exchangeAmount,isBirthdayConsume,isBirthdayDiscount,saleNum,saleAmount, ");
+		sb.append("        carryDown,createUser,remark,saleOrderPaymentDTOs,saleOrderDtlDTOs,saleOrderExtDTO,validFlag,couponsNo,createDate,status,department_id ");
+		sb.append(" from TEMP_MT_ORDER_BSD where status=0 ");
+
+		return this.getJdbcTemplate().queryForList(sb.toString());
+	}
+
+	@Override
+	public int updateErrorData(String id) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" update TEMP_MT_ORDER_BSD set status=2 where id=? ");
+
+		return this.getJdbcTemplate().update(sb.toString(),new Object[] { id });
+	}
+
 }

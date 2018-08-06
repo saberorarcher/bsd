@@ -22,5 +22,11 @@ public interface IinitialdataDao {
 	 * @return
 	 */
 	int updateData(String uuid, int i);
+	/**
+	 * 保存零售单临时数据
+	 * @param temData
+	 * @return
+	 */
+	int insertTemData(List<Map<String, Object>> temData);
 	
 }

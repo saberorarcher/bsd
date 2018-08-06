@@ -36,5 +36,16 @@ public interface IBsdSaleOrderService {
 	 * @return
 	 */
 	List<Map<String, Object>> getStoreList();
+	/**
+	 * 查询未读取的数据
+	 * @return
+	 */
+	List<Map<String, Object>> getTemData();
+	/**
+	 * 读取数据，并保存（从临时表）
+	 * @param map
+	 * @return
+	 */
+	BSDResponse getLoadTemData(Map<String, Object> map);
 
 }
