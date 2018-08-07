@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableList;
@@ -295,9 +296,12 @@ public class BsdSaleOrderServiceImpl implements IBsdSaleOrderService {
 				}
 				
 				//获取付款方式
-				saleOrderPayment = object.getJSONArray("saleOrderPaymentDTOs");
+				saleOrderPayment = JSON.parseArray(object.getString("saleOrderPaymentDTOs"));
 				//获取订单明细
-				saleOrderDtl =	object.getJSONArray("saleOrderDtlDTOs");
+				saleOrderDtl = JSON.parseArray(object.getString("saleOrderDtlDTOs"));
+//				saleOrderPayment = object.getJSONArray("saleOrderPaymentDTOs");
+				
+//				saleOrderDtl =	object.getJSONArray("saleOrderDtlDTOs");
 				
 				if( saleOrderPayment!=null && saleOrderPayment.size()>0 ) {
 					for(Object paymentObj:saleOrderPayment) {
