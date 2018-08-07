@@ -276,7 +276,7 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 	public List<Map<String, Object>> getStoreList() {
 		StringBuilder sb = new StringBuilder();
 //		sb.append(" select department_id,department_user_id from ( ");
-		sb.append("   select department_id,department_user_id from d0060 where system_type=11 and department_type=1 ");
+		sb.append("   select department_id,department_user_id from d0060 where system_type=11 and department_type=1 and department_user_id='A044' ");
 //		sb.append("   minus ");
 //		sb.append("   select d.department_id,d.department_user_id from d0060 a ");
 //		sb.append("          inner join d0060 b on a.department_id=b.department_parent_id ");
@@ -433,11 +433,11 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 	}
 
 	@Override
-	public int updateErrorData(String id) {
+	public int updateErrorData(String id,int i) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" update TEMP_MT_ORDER_BSD set status=2 where id=? ");
+		sb.append(" update TEMP_MT_ORDER_BSD set status=?,updateDate=sysdate where id=? ");
 
-		return this.getJdbcTemplate().update(sb.toString(),new Object[] { id });
+		return this.getJdbcTemplate().update(sb.toString(),new Object[] { i,id });
 	}
 
 }

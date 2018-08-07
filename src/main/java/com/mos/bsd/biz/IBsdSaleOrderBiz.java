@@ -45,7 +45,8 @@ public interface IBsdSaleOrderBiz {
 	/**
 	 * 修改状态
 	 * @param valueOf
+	 * @param i  状态
 	 */
-	int updateErrorData(String valueOf);
+	int updateErrorData(String valueOf, int i);
 
 }

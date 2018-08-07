@@ -25,8 +25,8 @@ public class BsdCommonDaoImpl extends X3DBSaveTemplate implements IBsdCommonDao 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("    insert into MT_LOG_INTERFACE(id,name,req_data,res_data,status,log_date,req_time,res_time,times) ");
-		sb.append("    values(SEQ_MT_LOG_INTERFACE.NEXTVAL,?,?,?,?,sysdate,to_date(?,'yyyy-MM-dd hh24:mi:ss'),to_date(?,'yyyy-MM-dd hh24:mi:ss'),?) ");
+		sb.append("    insert into MT_LOG_INTERFACE(id,name,req_data,res_data,status,log_date,req_time,res_time,times,dataId,countDataId,nums) ");
+		sb.append("    values(SEQ_MT_LOG_INTERFACE.NEXTVAL,?,?,?,?,sysdate,to_date(?,'yyyy-MM-dd hh24:mi:ss'),to_date(?,'yyyy-MM-dd hh24:mi:ss'),?,?,?,?) ");
 		
 		int count[] = this.getJdbcTemplate().batchUpdate(sb.toString(),new BatchPreparedStatementSetter() {
 			
@@ -43,6 +43,10 @@ public class BsdCommonDaoImpl extends X3DBSaveTemplate implements IBsdCommonDao 
 				ps.setString(5, req_time);
 				ps.setString(6, res_time);
 				ps.setString(7, list.get(i).get("times"));
+				ps.setString(8, list.get(i).get("dataId"));
+				ps.setString(9, list.get(i).get("countDataId"));
+				ps.setString(10, list.get(i).get("nums"));
+				
 			}
 			
 			@Override

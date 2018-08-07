@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mos.bsd.dao.IinitialdataDao;
 import com.mos.bsd.domain.InitialdataEntity;
+import com.mos.bsd.utils.MyStringUtils;
 import com.x3.base.core.entity.ServiceTag;
 import com.x3.datahelper.X3DBSaveTemplate;
 
@@ -149,51 +150,50 @@ public class InitialdataDaoImpl extends X3DBSaveTemplate implements Iinitialdata
 		sb.append(" saleTime,relativeOrderNo,orderStatus,billSource,orderType,sellType,o2oType,clerkId,deliveryClerkId,posCode, ");
 		sb.append(" discountCoupon,memberId,exchangePoint,exchangeAmount,isBirthdayConsume,isBirthdayDiscount,saleNum,saleAmount, ");
 		sb.append(" carryDown,createUser,remark,saleOrderPaymentDTOs,saleOrderDtlDTOs,saleOrderExtDTO,validFlag,couponsNo,createDate,department_id) ");
-		sb.append(" values(SEQ_TEMP_MT_ORDER_BSD.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,sysdate,?) ");
+		sb.append(" values(SEQ_TEMP_MT_ORDER_BSD.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,sysdate,?) ");
 		
 		int count [] = this.getJdbcTemplate().batchUpdate(sb.toString(),new BatchPreparedStatementSetter() {
 			
 			@Override
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				ps.setObject(1, temData.get(i).get("dataId"));
-				ps.setObject(2, temData.get(i).get("orderNo"));
-				ps.setObject(3, temData.get(i).get("corpNo"));
-				ps.setObject(4, temData.get(i).get("customerNo"));
-				ps.setObject(5, temData.get(i).get("storeNo"));
-				ps.setObject(6, temData.get(i).get("deliveryStoreNo"));
-				ps.setObject(7, temData.get(i).get("billDate"));
-				ps.setObject(8, temData.get(i).get("saleDate"));
-				ps.setObject(9, temData.get(i).get("saleTime"));
-				ps.setObject(10, temData.get(i).get("relativeOrderNo"));
-				ps.setObject(11, temData.get(i).get("orderStatus"));
-				ps.setObject(12, temData.get(i).get("billSource"));
-				ps.setObject(13, temData.get(i).get("orderType"));
-				ps.setObject(14, temData.get(i).get("sellType"));
-				ps.setObject(15, temData.get(i).get("o2oType"));
-				ps.setObject(16, temData.get(i).get("clerkId"));
-				ps.setObject(17, temData.get(i).get("deliveryClerkId"));
-				ps.setObject(18, temData.get(i).get("posCode"));
-				ps.setObject(19, temData.get(i).get("discountCoupon"));
-				ps.setObject(20, temData.get(i).get("memberId"));
-				ps.setObject(21, temData.get(i).get("exchangePoint"));
-				ps.setObject(22, temData.get(i).get("exchangeAmount"));
-				ps.setObject(23, temData.get(i).get("isBirthdayConsume"));
-				ps.setObject(24, temData.get(i).get("isBirthdayDiscount"));
-				ps.setObject(25, temData.get(i).get("saleNum"));
-				ps.setObject(26, temData.get(i).get("saleAmount"));
-				ps.setObject(27, temData.get(i).get("carryDown"));
-				ps.setObject(28, temData.get(i).get("createUser"));
-				ps.setObject(29, temData.get(i).get("remark"));
-				ps.setObject(30, temData.get(i).get("saleOrderPaymentDTOs"));
+				ps.setString(1, MyStringUtils.returnToString(temData.get(i).get("dataId")));
+				ps.setString(2, MyStringUtils.returnToString(temData.get(i).get("orderNo")));
+				ps.setString(3, MyStringUtils.returnToString(temData.get(i).get("corpNo")));
+				ps.setString(4, MyStringUtils.returnToString(temData.get(i).get("customerNo")));
+				ps.setString(5, MyStringUtils.returnToString(temData.get(i).get("storeNo")));
+				ps.setString(6, MyStringUtils.returnToString(temData.get(i).get("deliveryStoreNo")));
+				ps.setString(7, MyStringUtils.returnToString(temData.get(i).get("billDate")));
+				ps.setString(8, MyStringUtils.returnToString(temData.get(i).get("saleDate")));
+				ps.setString(9, MyStringUtils.returnToString(temData.get(i).get("saleTime")));
+				ps.setString(10, MyStringUtils.returnToString(temData.get(i).get("relativeOrderNo")));
+				ps.setString(11, MyStringUtils.returnToString(temData.get(i).get("orderStatus")));
+				ps.setString(12, MyStringUtils.returnToString(temData.get(i).get("billSource")));
+				ps.setString(13, MyStringUtils.returnToString(temData.get(i).get("orderType")));
+				ps.setString(14, MyStringUtils.returnToString(temData.get(i).get("sellType")));
+				ps.setString(15, MyStringUtils.returnToString(temData.get(i).get("o2oType")));
+				ps.setString(16, MyStringUtils.returnToString(temData.get(i).get("clerkId")));
+				ps.setString(17, MyStringUtils.returnToString(temData.get(i).get("deliveryClerkId")));
+				ps.setString(18, MyStringUtils.returnToString(temData.get(i).get("posCode")));
+				ps.setString(19, MyStringUtils.returnToString(temData.get(i).get("discountCoupon")));
+				ps.setString(20, MyStringUtils.returnToString(temData.get(i).get("memberId")));
+				ps.setString(21, MyStringUtils.returnToString(temData.get(i).get("exchangePoint")));
+				ps.setString(22, MyStringUtils.returnToString(temData.get(i).get("exchangeAmount")));
+				ps.setString(23, MyStringUtils.returnToString(temData.get(i).get("isBirthdayConsume")));
+				ps.setString(24, MyStringUtils.returnToString(temData.get(i).get("isBirthdayDiscount")));
+				ps.setString(25, MyStringUtils.returnToString(temData.get(i).get("saleNum")));
+				ps.setString(26, MyStringUtils.returnToString(temData.get(i).get("saleAmount")));
+				ps.setString(27, MyStringUtils.returnToString(temData.get(i).get("carryDown")));
+				ps.setString(28, MyStringUtils.returnToString(temData.get(i).get("createUser")));
+				ps.setString(29, MyStringUtils.returnToString(temData.get(i).get("remark")));
+				ps.setString(30, MyStringUtils.returnToString(temData.get(i).get("saleOrderPaymentDTOs")));
 				
 				StringReader reader = new StringReader(String.valueOf(temData.get(i).get("saleOrderDtlDTOs")));
 				ps.setCharacterStream(31, reader, String.valueOf(temData.get(i).get("saleOrderDtlDTOs")).length());
 				
-				ps.setObject(32, temData.get(i).get("saleOrderExtDTO"));
-				ps.setObject(33, temData.get(i).get("validFlag"));
-				ps.setObject(34, temData.get(i).get("couponsNo"));
-				ps.setObject(35, temData.get(i).get("createDate"));
-				ps.setObject(36, temData.get(i).get("department_id"));
+				ps.setString(32, MyStringUtils.returnToString(temData.get(i).get("saleOrderExtDTO")));
+				ps.setString(33, MyStringUtils.returnToString(temData.get(i).get("validFlag")));
+				ps.setString(34, MyStringUtils.returnToString(temData.get(i).get("couponsNo")));
+				ps.setString(35, MyStringUtils.returnToString(temData.get(i).get("department_id")));
 			}
 			
 			@Override

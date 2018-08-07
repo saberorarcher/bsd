@@ -452,9 +452,9 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 		String resMsg;
 		String status = "1";
 		if( c_jObject.containsKey("success")&&c_jObject.getBoolean("success") ) {
-			resMsg = "";
+			resMsg = c_jObject.toJSONString();
 		}else {
-			resMsg = c_jObject.getString("errorMessage");
+			resMsg = c_jObject.toJSONString();
 			status = "0";
 		}
 		
@@ -467,7 +467,8 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 		logMap.put("req_time", String.valueOf(ts));
 		logMap.put("res_time", String.valueOf(endTs));
 		logMap.put("times", String.valueOf(diffTs));
-		logData.add(logMap);
+		logMap.put("countDataId", "");
+		logMap.put("dataId", cuuid);
 		
 		if (c_jObject.getBoolean("success") != null && !c_jObject.getBoolean("success")) {
 			logger.error(c_jObject.getString("errorMessage"));
@@ -488,10 +489,14 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 		}
 		
 		int number = Integer.parseInt(c_jObject.getString("data"));
+		logMap.put("nums", String.valueOf(number));
+		logData.add(logMap);
+		
 		int num = number % 10000 > 0 ? number / 10000 + 1 : number / 10000;
 
 		for (int i = 0; i < num; i++) {
 			
+			String uuid = UUID.randomUUID().toString();
 			json.put("offset", i*10000);
 			json.put("limit",10000);
 			long begTs = System.currentTimeMillis();
@@ -501,7 +506,7 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 			long diffTs2 = endTs1-begTs;
 			
 			if( jo.containsKey("success") && jo.getBoolean("success") ) {
-				resMsg = "";
+				resMsg = c_jObject.getString("errorMessage");
 				status = "1";
 			}else {
 				resMsg = jo.getString("errorMessage");
@@ -517,7 +522,8 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 			logMap.put("req_time", String.valueOf(begTs));
 			logMap.put("res_time", String.valueOf(endTs1));
 			logMap.put("times", String.valueOf(diffTs2));
-			logData.add(logMap);
+			logMap.put("countDataId", cuuid);
+			logMap.put("dataId", uuid);
 			
 			boolean success = jo.getBoolean("success");
 			
@@ -527,7 +533,6 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 			}
 			jo.put("department_id", department_id);
 			
-			String uuid = UUID.randomUUID().toString();
 			detailMap = new HashMap<>();
 			detailMap.put("interface_name",url1 );
 			detailMap.put("request_data", json.toJSONString());
@@ -541,6 +546,8 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 			//解析json，保存进TEMP_MT_ORDER_BSD
 			if( success ) {
 				JSONArray jsonArray = jo.getJSONArray("data");
+				logMap.put("nums", String.valueOf(jsonArray.size()));
+				logData.add(logMap);
 				if( jsonArray!=null && jsonArray.size()>0 ) {
 					//整理成list
 					for( Object object:jsonArray ) {
@@ -618,8 +625,8 @@ public class BsdSaleOrderBizImpl implements IBsdSaleOrderBiz {
 	}
 
 	@Override
-	public int updateErrorData(String id) {
-		return sale_dao.updateErrorData(id);
+	public int updateErrorData(String id,int i) {
+		return sale_dao.updateErrorData(id,i);
 	}
 
 }

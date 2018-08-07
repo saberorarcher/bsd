@@ -59,8 +59,9 @@ public interface IBsdSaleOrderDao {
 	/**
 	 * 修改错误数据
 	 * @param id
+	 * @param i 
 	 * @return
 	 */
-	int updateErrorData(String id);
+	int updateErrorData(String id, int i);
 
 }
