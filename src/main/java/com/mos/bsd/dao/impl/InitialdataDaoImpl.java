@@ -145,12 +145,13 @@ public class InitialdataDaoImpl extends X3DBSaveTemplate implements Iinitialdata
 
 	@Override
 	public int insertTemData(List<Map<String, Object>> temData) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		StringBuilder sb = new StringBuilder();
 		sb.append(" insert into TEMP_MT_ORDER_BSD(id,dataId,orderNo,corpNo,customerNo,storeNo,deliveryStoreNo,billDate,saleDate, ");
 		sb.append(" saleTime,relativeOrderNo,orderStatus,billSource,orderType,sellType,o2oType,clerkId,deliveryClerkId,posCode, ");
 		sb.append(" discountCoupon,memberId,exchangePoint,exchangeAmount,isBirthdayConsume,isBirthdayDiscount,saleNum,saleAmount, ");
-		sb.append(" carryDown,createUser,remark,saleOrderPaymentDTOs,saleOrderDtlDTOs,saleOrderExtDTO,validFlag,couponsNo,createDate,department_id) ");
-		sb.append(" values(SEQ_TEMP_MT_ORDER_BSD.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,sysdate,?) ");
+		sb.append(" carryDown,createUser,remark,saleOrderPaymentDTOs,saleOrderDtlDTOs,saleOrderExtDTO,validFlag,couponsNo,createDate,department_id,sale_Time) ");
+		sb.append(" values(SEQ_TEMP_MT_ORDER_BSD.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,sysdate,?,?) ");
 		
 		int count [] = this.getJdbcTemplate().batchUpdate(sb.toString(),new BatchPreparedStatementSetter() {
 			
@@ -194,6 +195,7 @@ public class InitialdataDaoImpl extends X3DBSaveTemplate implements Iinitialdata
 				ps.setString(33, MyStringUtils.returnToString(temData.get(i).get("validFlag")));
 				ps.setString(34, MyStringUtils.returnToString(temData.get(i).get("couponsNo")));
 				ps.setString(35, MyStringUtils.returnToString(temData.get(i).get("department_id")));
+				ps.setString(36, sdf.format(new Date(Long.parseLong(MyStringUtils.returnToString(temData.get(i).get("saleTime"))))));
 			}
 			
 			@Override

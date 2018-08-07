@@ -37,11 +37,12 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 
 	@Override
 	public int mergeDretail(List<Map<String, Object>> list) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		StringBuilder sb = new StringBuilder();
 		sb.append(" merge into d_retail a ");
 		sb.append(" using ( ");
 		sb.append("       select ? bill_diff_bill_id,0 bill_czid,19 as system_type,? set_department_id,? move_dpt ");
-		sb.append("       ,sysdate bill_create_date,? bill_setdate,? bill_state,? bill_type,? bill_num,? bill_ssum,? bill_create_name, ");
+		sb.append("       ,sysdate bill_create_date,to_date(?,'yyyy-MM-dd hh24:mi:ss')bill_setdate,? bill_state,? bill_type,? bill_num,? bill_ssum,? bill_create_name, ");
 		sb.append("       ? bill_remark,? bill_return_reason,? bill_return_deal,? ex_class1,? ex_class2,? ex_class3,? ex_class4,? bill_idcode, 0 set_department_parent_id,0 get_department_parent_id  ");
 		sb.append("       ,? bill_code from dual ");
 		sb.append(" )b ");
@@ -69,7 +70,7 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 				ps.setString(2, String.valueOf(list.get(i).get("set_department_id")));
 				ps.setString(3, String.valueOf(list.get(i).get("move_dpt")));
 //				ps.setDate(4, new Date(Long.parseLong(String.valueOf(list.get(i).get("bill_create_date")))));
-				ps.setDate(4, new Date(Long.parseLong(String.valueOf(list.get(i).get("bill_setdate")))));
+				ps.setString(4, sdf.format(new Date(Long.parseLong(String.valueOf(list.get(i).get("bill_setdate"))))));
 				ps.setString(5, String.valueOf(list.get(i).get("bill_state")));
 				ps.setString(6, String.valueOf(list.get(i).get("bill_type")));
 				ps.setString(7, String.valueOf(list.get(i).get("bill_num")));

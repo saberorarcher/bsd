@@ -151,9 +151,9 @@ public class BsdSaleOrderServiceImpl implements IBsdSaleOrderService {
 				//开始时间2016-04-01  结束时间2018-06-30   每次+29天
 				Calendar c = Calendar.getInstance();
 //				c.set(2016, 3, 1);
-				c.set(2018, 7, 1);
+				c.set(2018, 6, 1);
 				Calendar c1 = Calendar.getInstance();
-				c1.set(2018, 7, 1);
+				c1.set(2018, 6, 1);
 //				c1.set(2016, 3, 1);
 				c1.add(Calendar.DAY_OF_MONTH, 29);
 				
@@ -346,7 +346,7 @@ public class BsdSaleOrderServiceImpl implements IBsdSaleOrderService {
 				retailMap.put("set_department_id", department_id);//店铺编号
 				retailMap.put("move_dpt", object.get("deliveryStoreNo"));//发货店铺编号
 				retailMap.put("bill_create_date", object.get("billDate"));
-				retailMap.put("bill_setdate", object.get("saleDate"));
+				retailMap.put("bill_setdate", object.get("saleTime"));
 				retailMap.put("saleTime", object.get("saleTime"));
 				retailMap.put("bill_id", object.get("orderNo"));
 				retailMap.put("bill_diff_bill_id", object.get("relativeOrderNo"));
