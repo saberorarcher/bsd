@@ -421,13 +421,32 @@ public class BsdSaleOrderDaoImpl extends X3DBSaveTemplate implements IBsdSaleOrd
 
 	@Override
 	public List<Map<String, Object>> getTemData() {
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(" select ");
+//		sb.append("        id,dataId,orderNo,corpNo,customerNo,storeNo,deliveryStoreNo,billDate,saleDate, ");
+//		sb.append("        saleTime,relativeOrderNo,orderStatus,billSource,orderType,sellType,o2oType,clerkId,deliveryClerkId,posCode, ");
+//		sb.append("        discountCoupon,memberId,exchangePoint,exchangeAmount,isBirthdayConsume,isBirthdayDiscount,saleNum,saleAmount, ");
+//		sb.append("        carryDown,createUser,remark,saleOrderPaymentDTOs,saleOrderDtlDTOs,saleOrderExtDTO,validFlag,couponsNo,createDate,status,department_id ");
+//		sb.append(" from TEMP_MT_ORDER_BSD where status=0 ");
 		StringBuilder sb = new StringBuilder();
+		sb.append("  with tem as  ( ");
+		sb.append("      select  id ");
+		sb.append("      from TEMP_MT_ORDER_BSD a where status=0 ");
+		sb.append("      minus ");
+		sb.append("        select ");
+		sb.append("             id ");
+		sb.append("             from TEMP_MT_ORDER_BSD a ");
+		sb.append("           inner join d_retail b on a.orderNo=b.bill_code ");
+		sb.append("      where status=0 ");
+		sb.append(" ) ");
 		sb.append(" select ");
-		sb.append("        id,dataId,orderNo,corpNo,customerNo,storeNo,deliveryStoreNo,billDate,saleDate, ");
-		sb.append("        saleTime,relativeOrderNo,orderStatus,billSource,orderType,sellType,o2oType,clerkId,deliveryClerkId,posCode, ");
-		sb.append("        discountCoupon,memberId,exchangePoint,exchangeAmount,isBirthdayConsume,isBirthdayDiscount,saleNum,saleAmount, ");
-		sb.append("        carryDown,createUser,remark,saleOrderPaymentDTOs,saleOrderDtlDTOs,saleOrderExtDTO,validFlag,couponsNo,createDate,status,department_id ");
-		sb.append(" from TEMP_MT_ORDER_BSD where status=0 ");
+		sb.append("         a.id,dataId,orderNo,corpNo,customerNo,storeNo,deliveryStoreNo,billDate,saleDate, ");
+		sb.append("         saleTime,relativeOrderNo,orderStatus,billSource,orderType,sellType,o2oType,clerkId,deliveryClerkId,posCode, ");
+		sb.append("         discountCoupon,memberId,exchangePoint,exchangeAmount,isBirthdayConsume,isBirthdayDiscount,saleNum,saleAmount, ");
+		sb.append("         carryDown,createUser,remark,saleOrderPaymentDTOs,saleOrderDtlDTOs,saleOrderExtDTO,validFlag,couponsNo,createDate,status,department_id ");
+		sb.append(" from TEMP_MT_ORDER_BSD a ");
+		sb.append("         inner join tem b on a.id=b.id ");
+		sb.append("         where a.status=0 ");
 
 		return this.getJdbcTemplate().queryForList(sb.toString());
 	}
